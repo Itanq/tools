@@ -8,27 +8,7 @@
 ******    Description : ----
 *********************************************************/
 
-#include "opencv2/core/core.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-
-#include <dirent.h>
-#include <iostream>
-
-class VideoPicture
-{
-    public:
-        VideoPicture();
-        ~VideoPicture();
-
-        void SetVideoPath(const std::string& path) { m_videoPath = path; }
-        void SetFrameRate(int rate) { m_frameRate = rate; }
-        void Process();
-
-    private:
-        int                 m_frameRate;
-        std::string         m_videoPath;
-};
+#include "videoToPicture.hpp"
 
 VideoPicture::VideoPicture()
 {
@@ -63,10 +43,12 @@ void VideoPicture::Process()
     vcapture.release();
 }
 
-int main(int argc, char* argv[])
+extern "C"
 {
-    VideoPicture vp;
-    vp.SetVideoPath(argv[1]);
-    vp.Process();
-    return 0;
+    VideoPicture tmp;
+    
+    void SetVideoPath(const std::string& path)
+    {
+        tmp.SetVideoPath(path);
+    }
 }
